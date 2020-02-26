@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Progress</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<!-- <meta  http-equiv="refresh" content="2"> -->
+</head>
+<body>
+	<h2>Progress bar for task completion</h2>
+	<div class="cont">
+		<div class="loader">
+			<label class="counter">Profile is <span>0%</span> complete</label>
+		</div>
+	</div>
+	<p>
+		<h4 style="text-decoration: underline;">Sample form data</h4>
+		<code>const <b>details</b> = {<br>
+
+	&nbsp; &nbsp;  	name: "Jefferson",<br>
+	&nbsp;	   &nbsp; age: 12,<br>
+		&nbsp;   &nbsp; weight: 70,<br>
+	&nbsp;	  &nbsp; level: 30,<br>
+		&nbsp; &nbsp;  relationship: "",<br>
+		&nbsp;   &nbsp;  contact: "",<br>
+		&nbsp;   &nbsp; email: "",<br>
+ &nbsp;   &nbsp;  friends: 459 <br>
+		}</code><br>
+		Each filled field has a mark attached to it. The total mark is equal to the total length of the progress bar [100%].
+		<br>
+		 <h3>Each field is equal to - 100% / Length of object(converted to array)</h3>
+	</p>
+
+<style type="text/css">
+
+	body{
+		background: #f2f2f2;
+		font-family: Nunito;
+		padding: 10px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+	}
+	.cont{
+		margin-top: 30px;
+		height: 20px;
+		width: 100%;
+		background: rgba(0, 200, 0, .3);
+		border-radius: 50px;
+	}	
+	.cont .loader{
+		height: 20px;
+		position: relative;
+		box-sizing: border-box;
+		width: 0%;
+		background: rgba(0, 200, 0, .8);
+		border-radius: 50px;
+		transition: width 1.5s linear
+	}
+	.cont .loader:before{
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		border-radius: 50px;
+		width: 100%;
+		background: linear-gradient(to  right, rgba(0, 200, 0, .3), rgba(0, 100, 0, .8));
+		animation: purge 4s infinite ease-out
+	}
+
+	@keyframes purge{
+		0%{
+			opacity: 0;
+			width: 0%;
+
+		}
+		50%{
+			opacity: .5
+		}
+		100%{
+			opacity: 0;
+			width: 100%;
+		}
+	}
+	.cont .loader label{
+		font-size: 12px;
+		position: absolute;
+		right: -10px;
+		text-align: center;
+		top: -25px;
+		font-weight: 600;
+		transition: .3s;
+	}
+	.cont .loader:after{
+		content: "";
+		position: absolute;
+		top: -10px;
+		right: 0px;
+		height: 50%;
+		width: 2px;
+		background: rgba(0, 200, 0, .8);
+	}
+	.cont:hover .loader label{
+		transform: scale(1.5);
+		transition: .3s;
+	}
+
+
+</style>
+
+<script type="text/javascript">
+	﻿
+ 
+
+  window.addEventListener("load", loadProgress)
+
+  function loadProgress(){
+   
+  	// Get DOM element
+  	const target = document.querySelector(".loader")
+	const counter = target.querySelector("span");
+
+	// Sample form data
+	const details = {
+	    name: "Jefferson",
+	    age: 12,
+	    weight: 70,
+	    level: 30,
+	    relationship: "",
+	    contact: "",
+	    email: "",
+     friends: 459
+	}
+
+
+  	function getProgress(board){
+	  	let maxLength = 100;
+	  	// Put them into array to get length of form
+	  	let lengthOfBoard = Object.values(board).length;
+
+	   	// Get possible mark of each field
+	  	let jumps = maxLength/lengthOfBoard;
+	  	let progress = 0;
+	  	for (let field in board){
+	  		// If field is filled add it's mark to progress
+	  		if (board[field]) {
+	  			progress += jumps
+	  		}
+	  	}
+	  	return progress
+	}
+
+	// Utilise value calculated from loader
+  	function implimentLoad(){
+	  	// Simulate a delay
+	  	setTimeout(()=>{
+	  		let progress = Math.round(getProgress(details))
+	  		counter.innerText = `${progress}% `;
+	  		target.style.width = `${getProgress(details)}% `
+	  	}, 1000)
+
+	}
+	implimentLoad()
+  }
+
+
+</script>
+</body>
+</html>
